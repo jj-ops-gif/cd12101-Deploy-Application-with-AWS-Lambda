@@ -44,7 +44,7 @@ export class TodosAccess {
       }
     })
 
-    console.log(`DATA: Response for the deleting a todo is ${response}`);
+    console.log(`DATA: Response for the getting a todo is ${response}`);
     return response;
   }
 
@@ -57,17 +57,18 @@ export class TodosAccess {
         userId,
         todoId
       }
+    }, function (err, data) {
+      if (err) console.log(`DATA: Response for the updating is ${err}`)
+      else console.log(`DATA: Response for the updating is ${data}`)
     })
 
-    console.log(`DATA: Response for the deleting a todo is ${response}`);
-    return response;
   }
 
   async updateTodo(todo) {
     console.log(`DATA: Updating a todo`, todo)
     console.log(`DATA: Updating a todo with id ${todo.todoId} of user ${todo.userId}`)
 
-    const response = await this.dynamoDbClient.update({
+    this.dynamoDbClient.update({
       TableName: this.todosTable,
       Key: {
         userId: todo.userId,
@@ -84,10 +85,11 @@ export class TodosAccess {
         "#name": "name"
       },
       ReturnValues: "UPDATED_NEW",
+    }, function (err, data) {
+      if (err) console.log(`DATA: Response for the updating is ${err}`)
+      else console.log(`DATA: Response for the updating is ${data}`)
     })
     
-    console.log(`DATA: Response for the updating is ${response}`);
-    return response;
   }
 
 }
