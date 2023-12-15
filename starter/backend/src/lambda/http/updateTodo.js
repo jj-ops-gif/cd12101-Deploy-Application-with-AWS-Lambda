@@ -16,9 +16,9 @@ export const handler = middy()
     const todoId = event.pathParameters.todoId
     const updatedTodo = JSON.parse(event.body)
 
-    // const authorization = event.headers.Authorization
-    // const userId = getUserId(authorization)
-    const userId = 'testUser'
+    const authorization = event.headers.Authorization
+    const userId = getUserId(authorization)
+    //const userId = 'testUser'
 
     const validTodoId = await todoExists(userId, todoId)
     

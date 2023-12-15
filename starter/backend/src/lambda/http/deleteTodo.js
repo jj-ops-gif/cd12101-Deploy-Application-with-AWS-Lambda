@@ -14,8 +14,8 @@ export const handler = middy()
   .handler(async (event) => {
   const todoId = event.pathParameters.todoId
   const authorization = event.headers.Authorization
-  // const userId = getUserId(authorization)
-  const userId = 'testUser'
+  const userId = getUserId(authorization)
+  //const userId = 'testUser'
   
   console.log(`HTTP: Deleting a todo with id ${todoId} of user ${userId}`)
 

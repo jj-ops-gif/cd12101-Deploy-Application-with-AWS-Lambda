@@ -15,6 +15,7 @@ export async function createTodo(createTodoRequest, userId) {
     userId,
     todoId,
     createdAt,
+    done: false,
     name: createTodoRequest.name,
     dueDate: createTodoRequest.dueDate
   })
