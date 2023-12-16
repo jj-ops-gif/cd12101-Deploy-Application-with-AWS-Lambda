@@ -1,4 +1,4 @@
-import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
+import { PutObjectCommand, DeleteObjectCommand, S3Client } from '@aws-sdk/client-s3'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import AWSXRay from 'aws-xray-sdk-core'
 
@@ -22,6 +22,14 @@ export class S3Access {
       expiresIn: this.urlExpiration
     })
     return url
+  }
+
+  async deleteImage(imageId) {
+    const command = new DeleteObjectCommand({
+      Bucket: this.bucketName,
+      Key: imageId
+    })
+    return await this.s3Client.send(command)
   }
 
 }

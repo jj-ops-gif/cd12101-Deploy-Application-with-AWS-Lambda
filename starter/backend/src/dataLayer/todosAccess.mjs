@@ -1,6 +1,9 @@
 import { DynamoDB } from '@aws-sdk/client-dynamodb'
 import { DynamoDBDocument } from '@aws-sdk/lib-dynamodb'
 import AWSXRay from 'aws-xray-sdk-core'
+import { createLogger } from '../utils/logger.mjs'
+
+const logger = createLogger('TodosAccess')
 
 export class TodosAccess {
   constructor(
@@ -13,7 +16,7 @@ export class TodosAccess {
   }
 
   async getAllTodos() {
-    console.log('DATA: Getting all todos')
+    logger.info('DATA: Getting all todos')
 
     const result = await this.dynamoDbClient.scan({
       TableName: this.todosTable
@@ -22,19 +25,19 @@ export class TodosAccess {
   }
 
   async createTodo(todo) {
-    console.log(`DATA: Creating a todo with id ${todo.todoId}`)
+    logger.info(`DATA: Creating a todo with id ${todo.todoId}`)
 
     const response = await this.dynamoDbClient.put({
       TableName: this.todosTable,
       Item: todo
     })
 
-    console.log(`DATA: Response for the creating a todo is ${response}`);
+    logger.info(`DATA: Response for the creating a todo is ${response}`);
     return todo
   }
 
   async getTodo(userId, todoId) {
-    console.log(`DATA: Getting a todo with id ${todoId} of user ${userId}`)
+    logger.info(`DATA: Getting a todo with id ${todoId} of user ${userId}`)
 
     const response = await this.dynamoDbClient.get({
       TableName: this.todosTable,
@@ -44,12 +47,12 @@ export class TodosAccess {
       }
     })
 
-    console.log(`DATA: Response for the getting a todo is ${response}`);
+    logger.info(`DATA: Response for the getting a todo is ${response}`);
     return response;
   }
 
   async deleteTodo(userId, todoId) {
-    console.log(`DATA: Deleting a todo with id ${todoId} of user ${userId}`)
+    logger.info(`DATA: Deleting a todo with id ${todoId} of user ${userId}`)
 
     const response = await this.dynamoDbClient.delete({
       TableName: this.todosTable,
@@ -57,16 +60,11 @@ export class TodosAccess {
         userId,
         todoId
       }
-    }, function (err, data) {
-      if (err) console.log(`DATA: Response for the updating is ${err}`)
-      else console.log(`DATA: Response for the updating is ${data}`)
     })
-
   }
 
   async updateTodo(todo) {
-    console.log(`DATA: Updating a todo`, todo)
-    console.log(`DATA: Updating a todo with id ${todo.todoId} of user ${todo.userId}`)
+    logger.info(`DATA: Updating a todo`, todo)
 
     this.dynamoDbClient.update({
       TableName: this.todosTable,
@@ -85,9 +83,6 @@ export class TodosAccess {
         "#name": "name"
       },
       ReturnValues: "UPDATED_NEW",
-    }, function (err, data) {
-      if (err) console.log(`DATA: Response for the updating is ${err}`)
-      else console.log(`DATA: Response for the updating is ${data}`)
     })
     
   }

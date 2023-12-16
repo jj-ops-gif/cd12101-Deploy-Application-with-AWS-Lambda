@@ -117,6 +117,7 @@ export function Todos() {
   const { user, getAccessTokenSilently } = useAuth0()
   const [todos, setTodos] = useState([])
   const [loadingTodos, setLoadingTodos] = useState(true)
+  const [reloadTodos, setReloadTodos] = useState(false)
   const navigate = useNavigate()
 
   console.log('User', {
@@ -135,20 +136,21 @@ export function Todos() {
         const todos = await getTodos(accessToken)
         setTodos(todos)
         setLoadingTodos(false)
+        setReloadTodos(false)
       } catch (e) {
         alert(`Failed to fetch todos: ${e.message}`)
       }
     }
     foo()
-  }, [getAccessTokenSilently])
+  }, [getAccessTokenSilently, reloadTodos])
 
   return (
     <div>
       <Header as="h1">TODOs</Header>
 
-      <NewTodoInput onNewTodo={(newTodo) => setTodos([...todos, newTodo])} />
+      <NewTodoInput onNewTodo={() => setReloadTodos(true)} />
 
-      {renderTodos(loadingTodos, todos)}
+      {renderTodos()}
     </div>
   )
 }

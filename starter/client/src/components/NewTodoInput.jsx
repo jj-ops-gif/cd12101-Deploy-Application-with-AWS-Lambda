@@ -11,16 +11,22 @@ export function NewTodoInput({ onNewTodo }) {
 
   const onTodoCreate = async (event) => {
     try {
-      const accessToken = await getAccessTokenSilently({
-        audience: `https://dev-ry1672jnhklmkzv1.us.auth0.com/api/v2/`,
-        scope: 'write:todos'
-      })
-      const dueDate = calculateDueDate()
-      const createdTodo = await createTodo(accessToken, {
-        name: newTodoName,
-        dueDate
-      })
-      onNewTodo(createdTodo)
+      if (newTodoName) {
+        const accessToken = await getAccessTokenSilently({
+          audience: `https://dev-ry1672jnhklmkzv1.us.auth0.com/api/v2/`,
+          scope: 'write:todos'
+        })
+        const dueDate = calculateDueDate()
+        const createdTodo = await createTodo(accessToken, {
+          name: newTodoName,
+          dueDate
+        })
+        // console.log('New TODO =====>', createdTodo)
+        // if (createdTodo) 
+        onNewTodo()
+      } else {
+        alert('Please enter a task.')
+      }
     } catch (e) {
       console.log('Failed to created a new TODO', e)
       alert('Todo creation failed')

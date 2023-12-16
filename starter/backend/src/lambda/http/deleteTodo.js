@@ -3,6 +3,9 @@ import cors from '@middy/http-cors'
 import httpErrorHandler from '@middy/http-error-handler'
 import { getUserId } from '../auth/utils.mjs'
 import { deleteTodo, todoExists } from '../../businessLogic/todos.mjs'
+import { createLogger } from '../../utils/logger.mjs'
+
+const logger = createLogger('deleteTodo')
 
 export const handler = middy()
   .use(httpErrorHandler())
@@ -15,9 +18,8 @@ export const handler = middy()
   const todoId = event.pathParameters.todoId
   const authorization = event.headers.Authorization
   const userId = getUserId(authorization)
-  //const userId = 'testUser'
   
-  console.log(`HTTP: Deleting a todo with id ${todoId} of user ${userId}`)
+  logger.info(`HTTP: Deleting a todo with id ${todoId} of user ${userId}`)
 
   const validTodoId = await todoExists(userId, todoId)
     

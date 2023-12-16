@@ -1,6 +1,8 @@
 import * as uuid from 'uuid'
 import { TodosAccess } from '../dataLayer/todosAccess.mjs'
+import { createLogger } from '../utils/logger.mjs'
 
+const logger = createLogger('todos')
 const todosAccess = new TodosAccess()
 
 export async function getAllTodos() {
@@ -24,13 +26,14 @@ export async function createTodo(createTodoRequest, userId) {
 export async function todoExists(userId, todoId) {
   const result = await todosAccess.getTodo(userId, todoId)
 
-  console.log('Get todo: ', result)
+  logger.info('Get todo: ', result)
   return !!result.Item
 }
 
 export async function deleteTodo(userId, todoId) {
-  console.log(`BUSINESS: Deleting a todo with id ${todoId} of user ${userId}`)
+  logger.info(`BUSINESS: Deleting a todo with id ${todoId} of user ${userId}`)
   return await todosAccess.deleteTodo(userId, todoId)
+  
 }
 
 export async function updateTodo(updateTodoRequest) {
