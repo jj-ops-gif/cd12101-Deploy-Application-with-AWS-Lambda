@@ -10,6 +10,7 @@ export function NewTodoInput({ onNewTodo }) {
   const { getAccessTokenSilently } = useAuth0()
 
   const onTodoCreate = async (event) => {
+    event.preventDefault();
     try {
       if (newTodoName) {
         const accessToken = await getAccessTokenSilently({
@@ -17,12 +18,10 @@ export function NewTodoInput({ onNewTodo }) {
           scope: 'write:todos'
         })
         const dueDate = calculateDueDate()
-        const createdTodo = await createTodo(accessToken, {
+        await createTodo(accessToken, {
           name: newTodoName,
           dueDate
         })
-        // console.log('New TODO =====>', createdTodo)
-        // if (createdTodo) 
         onNewTodo()
       } else {
         alert('Please enter a task.')

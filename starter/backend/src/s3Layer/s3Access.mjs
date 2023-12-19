@@ -21,6 +21,18 @@ export class S3Access {
     const url = await getSignedUrl(this.s3Client, command, {
       expiresIn: this.urlExpiration
     })
+
+    await this.docClient.update({
+      TableName: this.todosTable,
+      Key: { userId, todoId },
+      UpdateExpression: "set attachmentUrl=:URL",
+      ExpressionAttributeValues: {
+        ":URL": uploadUrl.split("?")[0]
+    },
+    ReturnValues: "UPDATED_NEW"
+  })
+  .promise();
+
     return url
   }
 

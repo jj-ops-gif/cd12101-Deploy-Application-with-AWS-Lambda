@@ -87,4 +87,8 @@ export class TodosAccess {
     
   }
 
+  async generateUploadUrl(todoId, userId) {
+    
+  }
+
 }
