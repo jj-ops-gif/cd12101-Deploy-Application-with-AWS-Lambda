@@ -2,7 +2,7 @@ import { useAuth0 } from '@auth0/auth0-react'
 import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Button, Form } from 'semantic-ui-react'
-import { getUploadUrl, uploadFile } from '../api/todos-api'
+import { getUploadUrl, uploadFile, patchTodo } from '../api/todos-api'
 
 const UploadState = {
   NoUpload: 'NoUpload',
@@ -50,6 +50,10 @@ export function EditTodo() {
 
       setUploadState(UploadState.UploadingFile)
       await uploadFile(uploadUrl, file)
+
+      await patchTodo(accessToken, todoId, {
+        attachmentUrl: uploadUrl.split("?")[0]
+      })
 
       alert('File was uploaded!')
     } catch (e) {

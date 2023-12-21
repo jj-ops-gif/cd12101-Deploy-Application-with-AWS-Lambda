@@ -1,6 +1,9 @@
 import { PutObjectCommand, DeleteObjectCommand, S3Client } from '@aws-sdk/client-s3'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import AWSXRay from 'aws-xray-sdk-core'
+import { createLogger } from '../utils/logger.mjs'
+
+const logger = createLogger('S3Access')
 
 export class S3Access {
   constructor(
@@ -13,33 +16,20 @@ export class S3Access {
     this.urlExpiration = urlExpiration
   }
 
-  async getUploadUrl(imageId) {
+  async getUploadUrl(todoId) {
     const command = new PutObjectCommand({
       Bucket: this.bucketName,
-      Key: imageId
+      Key: todoId
     })
-    const url = await getSignedUrl(this.s3Client, command, {
+    return await getSignedUrl(this.s3Client, command, {
       expiresIn: this.urlExpiration
     })
-
-    await this.docClient.update({
-      TableName: this.todosTable,
-      Key: { userId, todoId },
-      UpdateExpression: "set attachmentUrl=:URL",
-      ExpressionAttributeValues: {
-        ":URL": uploadUrl.split("?")[0]
-    },
-    ReturnValues: "UPDATED_NEW"
-  })
-  .promise();
-
-    return url
   }
 
-  async deleteImage(imageId) {
+  async deleteImage(todoId) {
     const command = new DeleteObjectCommand({
       Bucket: this.bucketName,
-      Key: imageId
+      Key: todoId
     })
     return await this.s3Client.send(command)
   }

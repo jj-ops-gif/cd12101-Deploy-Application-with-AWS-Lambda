@@ -1,11 +1,10 @@
 import middy from '@middy/core'
 import cors from '@middy/http-cors'
 import httpErrorHandler from '@middy/http-error-handler'
-import { S3Access } from '../../s3Layer/s3Access.mjs'
+import { getUploadUrl } from '../../businessLogic/todos.mjs'
 import { createLogger } from '../../utils/logger.mjs'
 
 const logger = createLogger('generateUploadUrl')
-const s3Access = new S3Access()
 
 export const handler = middy()
   .use(httpErrorHandler())
@@ -15,9 +14,8 @@ export const handler = middy()
     })
   )
   .handler(async (event) => {
-    logger.info('Processing event: ', event)
-    const todoId = event.pathParameters.todoId
-    const uploadUrl = await s3Access.getUploadUrl(todoId)
+    logger.info('http generateUploadUrl: Processing event: ', event)
+    const uploadUrl = await getUploadUrl(event.pathParameters.todoId)
 
     return {
       statusCode: 200,

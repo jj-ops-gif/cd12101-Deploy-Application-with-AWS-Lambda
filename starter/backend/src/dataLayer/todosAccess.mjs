@@ -47,7 +47,7 @@ export class TodosAccess {
       }
     })
 
-    logger.info(`DATA: Response for the getting a todo is ${response}`);
+    logger.info(`DATA: Response for the getting a todo is ${JSON.stringify(response)}`);
     return response;
   }
 
@@ -72,12 +72,13 @@ export class TodosAccess {
         userId: todo.userId,
         todoId: todo.todoId
       },
-      UpdateExpression: "set #name = :name, dueDate = :dueDate, done = :done, updatedAt = :updatedAt",
+      UpdateExpression: "set #name = :name, dueDate = :dueDate, done = :done, attachmentUrl=:URL, updatedAt = :updatedAt",
       ExpressionAttributeValues: {
         ":name": todo.name,
         ":dueDate": todo.dueDate,
         ":done": todo.done,
-        ":updatedAt": todo.updatedAt
+        ":updatedAt": todo.updatedAt,
+        ":URL": todo.attachmentUrl
       },
       ExpressionAttributeNames: {
         "#name": "name"

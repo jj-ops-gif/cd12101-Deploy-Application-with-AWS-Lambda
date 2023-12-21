@@ -1,6 +1,6 @@
 import * as uuid from 'uuid'
 import { TodosAccess } from '../dataLayer/todosAccess.mjs'
-import { S3Access } from '../s3Layer/s3Access.mjs'
+import { S3Access } from '../dataLayer/s3Access.mjs'
 import { createLogger } from '../utils/logger.mjs'
 
 const logger = createLogger('todos')
@@ -13,23 +13,25 @@ export async function getAllTodos() {
 
 export async function createTodo(createTodoRequest, userId) {
   const todoId = uuid.v4()
-  const createdAt = new Date().toJSON();
+  const dateTimeNow = new Date().toJSON();
 
   return await todosAccess.createTodo({
     userId,
     todoId,
-    createdAt,
     done: false,
     name: createTodoRequest.name,
-    dueDate: createTodoRequest.dueDate
+    dueDate: createTodoRequest.dueDate,
+    createdAt: dateTimeNow,
+    updatedAt: dateTimeNow,
+    attachmentUrl: ''
   })
 }
 
-export async function todoExists(userId, todoId) {
+export async function getDbTodo(userId, todoId) {
   const result = await todosAccess.getTodo(userId, todoId)
 
-  logger.info('Get todo: ', result)
-  return !!result.Item
+  logger.info('Get db todo: ', result.Item)
+  return result.Item
 }
 
 export async function deleteTodo(userId, todoId) {
@@ -40,14 +42,19 @@ export async function deleteTodo(userId, todoId) {
 }
 
 export async function updateTodo(updateTodoRequest) {
-  const updatedAt = new Date().toJSON();
+  if (!updateTodoRequest || !updateTodoRequest.todoId || !updateTodoRequest.userId) {
+    return
+  }
+
+  logger.info(`BUSINESS: Update the todoId=${updateTodoRequest.todoId}, userId=${updateTodoRequest.userId}`)
 
   return await todosAccess.updateTodo({
-    userId: updateTodoRequest.userId,
-    todoId: updateTodoRequest.todoId,
-    name: updateTodoRequest.name,
-    dueDate: updateTodoRequest.dueDate,
-    done: updateTodoRequest.done,
-    updatedAt,
+    ...updateTodoRequest,
+    updatedAt: new Date().toJSON(),
   })
+}
+
+export async function getUploadUrl(todoId) {
+  logger.info(`BUSINESS: Get upload URL for the todo ${todoId}`)
+  return await s3Access.getUploadUrl(todoId)
 }
