@@ -25,7 +25,7 @@ export const handler = middy()
     const dbTodo = await getDbTodo(userId, todoId)
     logger.info('Found dbTodo: ', dbTodo)
 
-    if ( dbTodo == null ) {
+    if ( !dbTodo ) {
       return {
         statusCode: 404,
         headers: {
