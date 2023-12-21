@@ -7,8 +7,8 @@ const logger = createLogger('todos')
 const todosAccess = new TodosAccess()
 const s3Access = new S3Access()
 
-export async function getAllTodos() {
-  return todosAccess.getAllTodos()
+export async function getAllTodos(userId) {
+  return todosAccess.getAllTodos(userId)
 }
 
 export async function createTodo(createTodoRequest, userId) {
