@@ -22,7 +22,7 @@ e8PP2JAVjrK9IvpA9VTHtdjTGkHJPaDxVqoqPfKt/YyeHgzcqcdkK1OrKh/REED+
 jd1ZPdH7j0uGJLbt9rmbcc4RA/YWsfo4atcCnKB9rFVW
 -----END CERTIFICATE-----`
 
-const logger = createLogger('auth')
+const logger = createLogger('auth0Authorizer')
 
 const jwksUrl = 'https://dev-ry1672jnhklmkzv1.us.auth0.com/.well-known/jwks.json'
 

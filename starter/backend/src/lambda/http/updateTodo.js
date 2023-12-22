@@ -15,7 +15,7 @@ export const handler = middy()
     })
   )
   .handler(async (event) => {
-    logger.info('Processing event: ', event)
+    logger.info('Update todo event', { event })
     const todoId = event.pathParameters.todoId
     const updatedTodo = JSON.parse(event.body)
 
@@ -23,7 +23,7 @@ export const handler = middy()
     const userId = getUserId(authorization)
 
     const dbTodo = await getDbTodo(userId, todoId)
-    logger.info('Found dbTodo: ', dbTodo)
+    logger.info('Found a db todo', { dbTodo })
 
     if ( !dbTodo ) {
       return {
@@ -37,7 +37,7 @@ export const handler = middy()
       }
     }
 
-    logger.info('Update todo: ', {
+    logger.info('Update todo', {
       userId,
       todoId,
       ...dbTodo,

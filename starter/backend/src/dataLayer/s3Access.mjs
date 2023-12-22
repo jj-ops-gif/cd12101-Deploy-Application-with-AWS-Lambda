@@ -3,7 +3,7 @@ import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import AWSXRay from 'aws-xray-sdk-core'
 import { createLogger } from '../utils/logger.mjs'
 
-const logger = createLogger('S3Access')
+const logger = createLogger('s3Access')
 
 export class S3Access {
   constructor(
@@ -17,6 +17,7 @@ export class S3Access {
   }
 
   async getUploadUrl(todoId) {
+    logger.info('Get upload url for a todo', { todoId })
     const command = new PutObjectCommand({
       Bucket: this.bucketName,
       Key: todoId
@@ -27,6 +28,7 @@ export class S3Access {
   }
 
   async deleteImage(todoId) {
+    logger.info('Delete the image for a todo', { todoId })
     const command = new DeleteObjectCommand({
       Bucket: this.bucketName,
       Key: todoId

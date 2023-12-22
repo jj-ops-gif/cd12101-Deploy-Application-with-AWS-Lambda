@@ -14,7 +14,7 @@ export const handler = middy()
     })
   )
   .handler(async (event) => {
-    logger.info('http generateUploadUrl: Processing event: ', event)
+    logger.info('Generate upload url event', { event })
     const uploadUrl = await getUploadUrl(event.pathParameters.todoId)
 
     return {

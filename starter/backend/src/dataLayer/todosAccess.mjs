@@ -3,7 +3,7 @@ import { DynamoDBDocument } from '@aws-sdk/lib-dynamodb'
 import AWSXRay from 'aws-xray-sdk-core'
 import { createLogger } from '../utils/logger.mjs'
 
-const logger = createLogger('TodosAccess')
+const logger = createLogger('todosAccess')
 
 export class TodosAccess {
   constructor(
@@ -16,7 +16,7 @@ export class TodosAccess {
   }
 
   async getAllTodos(userId) {
-    logger.info('DATA: Getting all todos')
+    logger.info('Getting all todos for user', { userId })
 
     const result = await this.dynamoDbClient.query({
       TableName: this.todosTable,
@@ -29,19 +29,19 @@ export class TodosAccess {
   }
 
   async createTodo(todo) {
-    logger.info(`DATA: Creating a todo with id ${todo.todoId}`)
+    logger.info('Creating a todo', { todo })
 
     const response = await this.dynamoDbClient.put({
       TableName: this.todosTable,
       Item: todo
     })
 
-    logger.info(`DATA: Response for the creating a todo is ${response}`);
+    logger.info('Response for the creating a todo', { response });
     return todo
   }
 
   async getTodo(userId, todoId) {
-    logger.info(`DATA: Getting a todo with id ${todoId} of user ${userId}`)
+    logger.info('Getting a todo in the dynamoDb', { userId, todoId })
 
     const response = await this.dynamoDbClient.get({
       TableName: this.todosTable,
@@ -51,12 +51,12 @@ export class TodosAccess {
       }
     })
 
-    logger.info(`DATA: Response for the getting a todo is ${JSON.stringify(response)}`);
+    logger.info('Response for the getting a todo', { response });
     return response;
   }
 
   async deleteTodo(userId, todoId) {
-    logger.info(`DATA: Deleting a todo with id ${todoId} of user ${userId}`)
+    logger.info('Deleting a todo', { userId, todoId })
 
     const response = await this.dynamoDbClient.delete({
       TableName: this.todosTable,
@@ -68,7 +68,7 @@ export class TodosAccess {
   }
 
   async updateTodo(todo) {
-    logger.info(`DATA: Updating a todo`, todo)
+    logger.info('Updating a todo', { todo })
 
     this.dynamoDbClient.update({
       TableName: this.todosTable,

@@ -15,25 +15,26 @@ export const handler = middy()
     })
   )
   .handler(async (event) => {
-  const todoId = event.pathParameters.todoId
-  const authorization = event.headers.Authorization
-  const userId = getUserId(authorization)
-  
-  logger.info(`HTTP: Deleting a todo with id ${todoId} of user ${userId}`)
-
-  const dbTodo = await getDbTodo(userId, todoId)
+    logger.info('Delete todo event', { event })
+    const todoId = event.pathParameters.todoId
+    const authorization = event.headers.Authorization
+    const userId = getUserId(authorization)
     
-  if (!dbTodo) {
-    return {
-      statusCode: 404,
-      headers: {
-        'Access-Control-Allow-Origin': '*'
-      },
-      body: JSON.stringify({
-        error: 'Todo does not exist'
-      })
-    }
-  }
+    logger.info('HTTP: Deleting a todo', { userId, todoId })
 
-  return await deleteTodo(userId, todoId)
+    const dbTodo = await getDbTodo(userId, todoId)
+      
+    if (!dbTodo) {
+      return {
+        statusCode: 404,
+        headers: {
+          'Access-Control-Allow-Origin': '*'
+        },
+        body: JSON.stringify({
+          error: 'Todo does not exist'
+        })
+      }
+    }
+
+    return await deleteTodo(userId, todoId)
 })

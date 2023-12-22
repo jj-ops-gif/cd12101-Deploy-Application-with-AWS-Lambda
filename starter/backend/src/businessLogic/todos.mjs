@@ -30,14 +30,15 @@ export async function createTodo(createTodoRequest, userId) {
 export async function getDbTodo(userId, todoId) {
   const result = await todosAccess.getTodo(userId, todoId)
 
-  logger.info('Get db todo: ', result.Item)
+  logger.info('Get db todo', { result })
   return result.Item
 }
 
 export async function deleteTodo(userId, todoId) {
-  logger.info(`BUSINESS: Deleting the image of the todo ${todoId} in the S3`)
+  logger.info('Deleting the image of the todo in the S3', { todoId })
   await s3Access.deleteImage(todoId)
-  logger.info(`BUSINESS: Deleting a todo with id ${todoId} of user ${userId}`)
+
+  logger.info('Deleting a todo for the user', { userId, todoId })
   return await todosAccess.deleteTodo(userId, todoId)
 }
 
@@ -46,8 +47,7 @@ export async function updateTodo(updateTodoRequest) {
     return
   }
 
-  logger.info(`BUSINESS: Update the todoId=${updateTodoRequest.todoId}, userId=${updateTodoRequest.userId}`)
-
+  logger.info('Update dynamoDB record', { updateTodoRequest })
   return await todosAccess.updateTodo({
     ...updateTodoRequest,
     updatedAt: new Date().toJSON(),
@@ -55,6 +55,6 @@ export async function updateTodo(updateTodoRequest) {
 }
 
 export async function getUploadUrl(todoId) {
-  logger.info(`BUSINESS: Get upload URL for the todo ${todoId}`)
+  logger.info('Get upload URL for a todo', { todoId })
   return await s3Access.getUploadUrl(todoId)
 }
