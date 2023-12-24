@@ -3,7 +3,7 @@ import { DynamoDBDocument } from '@aws-sdk/lib-dynamodb'
 import AWSXRay from 'aws-xray-sdk-core'
 import { createLogger } from '../utils/logger.mjs'
 
-const logger = createLogger('todosAccess')
+const logger = createLogger('TodosAccess')
 
 export class TodosAccess {
   constructor(
@@ -15,8 +15,8 @@ export class TodosAccess {
     this.dynamoDbClient = DynamoDBDocument.from(this.documentClient)
   }
 
-  async getAllTodos(userId) {
-    logger.info('Getting all todos for user', { userId })
+  async getAllTodos(requestId, userId) {
+    logger.info('Getting all todos for user', { requestId, userId })
 
     const result = await this.dynamoDbClient.query({
       TableName: this.todosTable,
@@ -28,20 +28,20 @@ export class TodosAccess {
     return result.Items
   }
 
-  async createTodo(todo) {
-    logger.info('Creating a todo', { todo })
+  async createTodo(requestId, todo) {
+    logger.info('Creating a todo', { requestId, todo })
 
     const response = await this.dynamoDbClient.put({
       TableName: this.todosTable,
       Item: todo
     })
 
-    logger.info('Response for the creating a todo', { response });
+    logger.info('Response for the creating a todo', { requestId, response });
     return todo
   }
 
-  async getTodo(userId, todoId) {
-    logger.info('Getting a todo in the dynamoDb', { userId, todoId })
+  async getTodo(requestId, userId, todoId) {
+    logger.info('Getting a todo in the dynamoDb', { requestId, userId, todoId })
 
     const response = await this.dynamoDbClient.get({
       TableName: this.todosTable,
@@ -51,12 +51,12 @@ export class TodosAccess {
       }
     })
 
-    logger.info('Response for the getting a todo', { response });
+    logger.info('Response for the getting a todo', { requestId, response });
     return response;
   }
 
-  async deleteTodo(userId, todoId) {
-    logger.info('Deleting a todo', { userId, todoId })
+  async deleteTodo(requestId, userId, todoId) {
+    logger.info('Deleting a todo', { requestId, userId, todoId })
 
     const response = await this.dynamoDbClient.delete({
       TableName: this.todosTable,
@@ -67,8 +67,8 @@ export class TodosAccess {
     })
   }
 
-  async updateTodo(todo) {
-    logger.info('Updating a todo', { todo })
+  async updateTodo(requestId, todo) {
+    logger.info('Updating a todo', { requestId, todo })
 
     this.dynamoDbClient.update({
       TableName: this.todosTable,
@@ -89,10 +89,6 @@ export class TodosAccess {
       },
       ReturnValues: "UPDATED_NEW",
     })
-    
-  }
-
-  async generateUploadUrl(todoId, userId) {
     
   }
 

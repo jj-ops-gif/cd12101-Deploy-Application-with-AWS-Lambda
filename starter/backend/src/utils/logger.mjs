@@ -7,7 +7,7 @@ import winston from 'winston'
  */
 export function createLogger(loggerName) {
   return winston.createLogger({
-    level: 'info',
+    level: process.env.LOG_LEVEL || 'info',
     format: winston.format.json(),
     defaultMeta: { name: loggerName },
     transports: [new winston.transports.Console()]

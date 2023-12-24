@@ -26,7 +26,8 @@ const logger = createLogger('auth0Authorizer')
 
 const jwksUrl = 'https://dev-ry1672jnhklmkzv1.us.auth0.com/.well-known/jwks.json'
 
-export async function handler(event) {
+export async function handler(event, context) {
+  const requestId = context.awsRequestId;
   try {
     const jwtToken = await verifyToken(event.authorizationToken)
 
@@ -44,7 +45,7 @@ export async function handler(event) {
       }
     }
   } catch (e) {
-    logger.error('User not authorized', { error: e.message })
+    logger.error('User not authorized', { requestId, error: e.message })
 
     return {
       principalId: 'user',

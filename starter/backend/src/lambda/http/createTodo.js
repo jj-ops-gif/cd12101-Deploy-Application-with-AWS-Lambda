@@ -14,14 +14,15 @@ export const handler = middy()
       credentials: true
     })
   )
-  .handler(async (event) => {
-    logger.info('Create todo event', { event })
+  .handler(async (event, context) => {
+    const requestId = context.awsRequestId;
+    logger.info('Create todo event', { requestId, event })
 
     const newTodo = JSON.parse(event.body)
 
     const authorization = event.headers.Authorization
     const userId = getUserId(authorization)
-    const newItem = await createTodo(newTodo, userId)
+    const newItem = await createTodo(requestId, newTodo, userId)
 
     return {
       statusCode: 201,

@@ -14,12 +14,13 @@ export const handler = middy()
       credentials: true
     })
   )
-  .handler(async (event) => {
-    logger.info('Get all todos event for the current user', { event })
+  .handler(async (event, context) => {
+    const requestId = context.awsRequestId;
+    logger.info('Get all todos event for the current user', { requestId, event })
     const authorization = event.headers.Authorization
     const userId = getUserId(authorization)
 
-    const todos = await getAllTodos(userId)
+    const todos = await getAllTodos(requestId, userId)
 
     return {
       statusCode: 200,

@@ -2,8 +2,47 @@ service: serverless-todo-app
 
 plugins:
   - serverless-iam-roles-per-function
+  # - serverless-plugin-aws-alerts
+  - serverless-plugin-tracing
 
 frameworkVersion: '3'
+
+custom:
+  logLevelMap:  
+    prod: info
+    staging: info
+  logLevel: ${self:custom.logLevelMap.${opt:stage}, 'debug'}
+  # alerts:
+  #   stages:
+  #     - dev
+  #   topics:
+  #     alarm:
+  #       topic: ${self:service}-${opt:stage, 'dev'}-alerts-alarm
+  #       notifications:
+  #         - protocol: email
+  #           endpoint: xxx@gmail.com # Change this to your email address
+  #   definitions:
+  #     functionErrorsAlarm:
+  #       description: 'Function error count'
+  #       namespace: 'AWS/Lambda'
+  #       metric: Errors
+  #       threshold: 10
+  #       statistic: Sum
+  #       period: 60
+  #       evaluationPeriods: 1
+  #       comparisonOperator: GreaterThanOrEqualToThreshold
+  #     functionThrottlesAlarm:
+  #       description: 'Function throttles count'
+  #       namespace: 'AWS/Lambda'
+  #       metric: Throttles
+  #       threshold: 10
+  #       statistic: Sum
+  #       period: 60
+  #       evaluationPeriods: 1
+  #       comparisonOperator: GreaterThanOrEqualToThreshold
+  #   alarms:
+  #     - functionErrorsAlarm
+  #     - functionThrottlesAlarm
 
 provider:
   name: aws
@@ -11,6 +50,8 @@ provider:
   tracing:
     lambda: true
     apiGateway: true
+
+  logRetentionInDays: 14
 
   stage: ${opt:stage, 'dev'}
   region: ${opt:region, 'us-east-1'}
@@ -20,6 +61,7 @@ provider:
     TODOS_CREATED_AT_INDEX: CreatedAtIndex
     IMAGES_S3_BUCKET: images-691171759074-${self:provider.stage}
     SIGNED_URL_EXPIRATION: 300
+    LOG_LEVEL: ${self:custom.logLevel}
 
 functions:
 

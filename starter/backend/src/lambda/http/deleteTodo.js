@@ -14,15 +14,17 @@ export const handler = middy()
       credentials: true
     })
   )
-  .handler(async (event) => {
-    logger.info('Delete todo event', { event })
+  .handler(async (event, context) => {
+    const requestId = context.awsRequestId;
+    logger.info('Delete todo event', { requestId, event })
+    
     const todoId = event.pathParameters.todoId
     const authorization = event.headers.Authorization
     const userId = getUserId(authorization)
     
-    logger.info('HTTP: Deleting a todo', { userId, todoId })
+    logger.info('HTTP: Deleting a todo', { requestId, userId, todoId })
 
-    const dbTodo = await getDbTodo(userId, todoId)
+    const dbTodo = await getDbTodo(requestId, userId, todoId)
       
     if (!dbTodo) {
       return {
@@ -36,5 +38,5 @@ export const handler = middy()
       }
     }
 
-    return await deleteTodo(userId, todoId)
+    return await deleteTodo(requestId, userId, todoId)
 })

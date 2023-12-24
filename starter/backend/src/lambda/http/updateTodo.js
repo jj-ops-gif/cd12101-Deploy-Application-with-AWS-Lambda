@@ -14,16 +14,17 @@ export const handler = middy()
       credentials: true
     })
   )
-  .handler(async (event) => {
-    logger.info('Update todo event', { event })
+  .handler(async (event, context) => {
+    const requestId = context.awsRequestId;
+    logger.info('Update todo event', { requestId, event })
     const todoId = event.pathParameters.todoId
     const updatedTodo = JSON.parse(event.body)
 
     const authorization = event.headers.Authorization
     const userId = getUserId(authorization)
 
-    const dbTodo = await getDbTodo(userId, todoId)
-    logger.info('Found a db todo', { dbTodo })
+    const dbTodo = await getDbTodo(requestId, userId, todoId)
+    logger.info('Found a db todo', { requestId, dbTodo })
 
     if ( !dbTodo ) {
       return {
@@ -38,13 +39,14 @@ export const handler = middy()
     }
 
     logger.info('Update todo', {
+      requestId,
       userId,
       todoId,
       ...dbTodo,
       ...updatedTodo
     })
 
-    return await updateTodo({
+    return await updateTodo(requestId, {
       userId,
       todoId,
       ...dbTodo,

@@ -13,9 +13,10 @@ export const handler = middy()
       credentials: true
     })
   )
-  .handler(async (event) => {
-    logger.info('Generate upload url event', { event })
-    const uploadUrl = await getUploadUrl(event.pathParameters.todoId)
+  .handler(async (event, context) => {
+    const requestId = context.awsRequestId;
+    logger.info('Generate upload url event', { requestId, event })
+    const uploadUrl = await getUploadUrl(requestId, event.pathParameters.todoId)
 
     return {
       statusCode: 200,
