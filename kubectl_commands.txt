@@ -1,0 +1,167 @@
+    1  kubectl apply -f ./udagram-api-feed/backend-feed-deployment.yaml 
+    2  kubectl apply -f ./udagram-api-feed/backend-feed-service.yaml 
+    3  kubectl get pods
+    4  kubectl get services
+    5  kubectl apply -f ./udagram-api-user/backend-user-deployment.yaml 
+    6  kubectl apply -f ./udagram-api-user/backend-user-service.yaml 
+    7  kubectl get services
+    8  kubectl apply -f ./udagram-reverseproxy/reverseproxy-deployment.yaml 
+    9  kubectl apply -f ./udagram-reverseproxy/reverseproxy-service.yaml 
+   10  kubectl get pods
+   11  kubectl get services
+   12  kubectl get deployments
+   13  kubectl get pods
+   14  kubectl logs backend-feed-689b8c78f4-m9qj6
+   15  kubectl get pods
+   16  kubectl logs backend-feed-689b8c78f4-xg2bb
+   17  kubectl get pods
+   18  kubectl set image deployment backend-feed backend-feed=0987432592345457/udagram-api-feed:v3
+   19  kubectl get pods
+   20  kubectl get services
+   21  kubectl get deployments
+   22  kubectl set image deployment backend-user backend-user=0987432592345457/udagram-api-user:v3
+   23  kubectl set image deployment reverseproxy reverseproxy=0987432592345457/udagram-reverseproxy:v3
+   24  kubectl get deployments
+   25  kubectl get pods
+   26  kubectl logs backend-feed-689b8c78f4-xg2bb
+   27  kubectl get pods
+   28  kubectl logs backend-user-6d5f468cb8-g8g4c
+   29  kubectl logs backend-feed-689b8c78f4-m9qj6
+   30  kubectl logs backend-user-6d5f468cb8-5pl5f 
+   31  kubectl logs backend-feed-689b8c78f4-m9qj6
+   32  kubectl logs reverseproxy-848455bf9c-5ww6d
+   33  kubectl get pods
+   34  kubectl apply -f ./udagram-frontend/frontend-deployment.yaml 
+   35  kubectl apply -f ./udagram-frontend/frontend-service.yaml 
+   36  kubectl get pods
+   37  kubectl get services
+   38  kubectl set image deployment frontend frontend=0987432592345457/udagram-frontend:v3
+   39  kubectl get services
+   40  kubectl get pods
+   41  kubectl get services
+   42  kubectl get pods
+   43  kubectl apply -f ./udagram-frontend/frontend-deployment.yaml 
+   44  kubectl apply -f ./udagram-frontend/frontend-service.yaml 
+   45  kubectl get pods
+   46  kubectl get services
+   47  kubectl apply -f ./udagram-frontend/frontend-service.yaml 
+   48  kubectl get pods
+   49  kubectl logs frontend-79dc758954-8pgsj
+   51  kubectl apply -f aws-secret.yaml 
+   53  kubectl apply -f aws-secret.yaml 
+   58  kubectl apply -f aws-secret.yaml 
+   60  kubectl apply -f aws-secret.yaml 
+   62  kubectl apply -f aws-secret.yaml 
+   63  kubectl apply -f ./udagram-api-feed/backend-feed-deployment.yaml 
+   64  kubectl get pods
+   65  kubectl logs backend-feed-68864bf45b-ttfll
+   66  kubectl get services
+   67  kubectl set image deployment backend-feed backend-feed=0987432592345457/udagram-api-feed:v3
+   68  kubectl get pods
+   69  kubectl apply -f aws-secret.yaml 
+   70  kubectl get pods
+   71  kubectl apply -f ./udagram-api-feed/backend-feed-deployment.yaml 
+   72  kubectl get pods
+   73  kubectl logs backend-feed-68864bf45b-ttfll
+   74  kubectl apply -f ./udagram-api-feed/backend-feed-deployment.yaml 
+   75  kubectl get pods
+   76  kubectl apply -f aws-secret.yaml 
+   77  kubectl logs backend-feed-68864bf45b-ttfll
+   78  kubectl get pods
+   79  kubectl logs backend-feed-54cc956d56-j2n85
+   87  kubectl apply -f aws-secret.yaml 
+   88  kubectl get pods
+   89  kubectl delete pod --all -n <namespace>
+   90  kubectl delete pod backend-feed-54cc956d56-j2n85
+   91  kubectl get pods
+   92  kubectl apply -f aws-secret.yaml 
+   93  kubectl apply -f ./udagram-api-feed/backend-feed-deployment.yaml 
+   94  kubectl get pods
+   95  kubectl exec backend-feed-54cc956d56-4ghm9 --cat /root/.aws/credentials
+   96  kubectl exec -it backend-feed-54cc956d56-4ghm9 -- cat /root/.aws/credentials
+  105  kubectl apply -f aws-secret.yaml
+  108  kubectl apply -f aws-secret.yaml
+  109  kubectl get pods
+  111  kubectl apply -f aws-secret.yaml
+  112  kubectl delete pod <pod-name>
+  113  kubectl delete pod frontend-79dc758954-8pgsj
+  114  kubectl get pods
+  115  kubectl get services
+  117  kubectl get services
+  122  kubectl get pods
+  123  kubectl exec -it my-pod -- /bin/bash
+  124  kubectl exec -it backend-feed-54cc956d56-4ghm9 -- /bin/bash
+  125  kubectl exec -it backend-user-6d5f468cb8-bqsd4 -- /bin/bash
+  126  kubectl get pods
+  127  kubectl logs reverseproxy-848455bf9c-vh8dt
+  140  kubectl apply -f frontend-deployment.yaml 
+  141  kubectl apply -f frontend-service.yaml 
+  310  kubectl get svc
+  313  kubectl apply -f aws-secret.yaml
+  315  kubectl apply -f aws-secret.yaml
+  316  kubectl apply -f env-secret.yam
+  317  kubectl apply -f env-configmap.yaml
+  318  kubectl apply -f ./udagram-api-feed/backend-feed-deployment.yaml
+  319  kubectl apply -f ./udagram-api-user/backend-user-deployment.yaml
+  320  kubectl apply -f ./udagram-reverseproxy/reverseproxy--deployment.yaml
+  321  kubectl apply -f ./udagram-reverseproxy/reverseproxy-deployment.yaml
+  322  kubectl apply -f ./udagram-api-feed/backend-feed-service.yaml 
+  323  kubectl apply -f ./udagram-api-user/backend-user-service.yaml 
+  324  kubectl apply -f ./udagram-reverseproxy/reverseproxy-service.yaml 
+  325  kubectl get deployments
+  326  kubectl get pods
+  327  kubectl logs backend-feed-54cc956d56-8h76p
+  328  kubectl get pods
+  329  kubectl logs backend-feed-54cc956d56-8h76p
+  330  kubectl get pods
+  331  kubectl exec -it backend-feed-54cc956d56-8h76p -- /bin/bash
+  332  kubectl exec -it backend-feed-54cc956d56-8h76p -- ls
+  333  kubectl apply -f ./udagram-api-feed/backend-feed-service.yaml 
+  334  kubectl get services
+  335  kubectl get pods
+  336  kubectl apply -f aws-secret.yaml 
+  337  kubectl apply -f env-configmap.yaml 
+  338  kubectl apply -f env-secret.yaml 
+  341  kubectl get pods
+  342  kubectl get deployments
+  343  kubectl exec -it backend-feed-54cc956d56-8h76p -- /bin/bash
+  344  kubectl get services
+  346  kubectl get pods
+  347  kubectl logs reverseproxy-848455bf9c-h7tj
+  348  kubectl logs reverseproxy-848455bf9c-h7tjp
+  349  kubectl get pods
+  350  kubectl logs backend-feed-54cc956d56-8h76p
+  351  kubectl logs backend-user-6d5f468cb8-jmf6b
+  355  kubectl get pods
+  356  kubectl get services
+  358  kubectl get pods
+  359  kubectl exec -it backend-feed-54cc956d56-8h76p -- cat /root/.aws/credentials
+  360  kubectl get ep
+  361  kubectl get endpoints
+  362  kubectl describe services
+  363  kubectl get pods output
+  366  kubectl exec -it backend-feed-54cc956d56-8h76p -- cat /root/.aws/credentials
+  368  kubectl apply -f ./udagram-api-feed/backend-feed-deployment.yaml 
+  369  kubectl apply -f ./udagram-api-feed/backend-feed-service.yaml 
+  370  kubectl get services
+  371  kubectl get pods
+  372  kubectl get ep
+  374  kubectl get pods
+  375  kubectl logs frontend-55868488c-9vzlr
+  376  kubectl get pods
+  377  kubectl logs frontend-55868488c-mv68b
+  378  kubectl get pods
+  379  kubectl get services
+  380  kubectl get deployments
+  381  kubectl get ep
+  383  kubectl get pods
+  384  kubectl exec -it backend-feed-76bd7ccbcf-cff8d -- cat /root/.aws/credentials
+  385  kubectl exec -it backend-user-6d5f468cb8-chmgk -- cat /root/.aws/credentials
+  386  kubectl set image deployment frontend frontend=0987432592345457/udagram-frontend:v4
+  387  kubectl get pods
+  388  kubectl logs backend-feed-76bd7ccbcf-cff8d
+  389  kubectl exec -it backend-feed-76bd7ccbcf-cff8d -- /bin/bash
+  390  kubectl logs frontend-55868488c-9vzlr
+  392  kubectl get pods
+  502  history | grep kubectl
+  503  history | grep kubectl > kubectl_commands.txt
